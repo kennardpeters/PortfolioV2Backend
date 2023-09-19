@@ -30,7 +30,8 @@ def get_text_chunks(text):
     return chunks
 
 def get_vectorstore(text_chunks):
-    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
+    embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl") #device='cuda'
+    # ef = embedding_functions.InstructorEmbeddingFunction(model_name="hkunlp/instructor-xl", device="cuda")
     vectorstore = Chroma.from_documents(text_chunks, embeddings)
     # vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
