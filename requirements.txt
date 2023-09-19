@@ -1,0 +1,12 @@
+streamlit
+pypdf2
+langchain
+python-dotenv
+#faiss-cpu #probably replace this another vector database
+huggingface_hub
+InstructorEmbedding
+sentence_transformers
+chromadb
+
+#Specific version
+altair==4
