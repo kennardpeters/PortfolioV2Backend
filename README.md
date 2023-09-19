@@ -10,3 +10,7 @@ Then, run:
 ```
 pip install -r requirements.txt
 ```
+To run streamlit (temp):
+```
+streamlit run app.py
+```
