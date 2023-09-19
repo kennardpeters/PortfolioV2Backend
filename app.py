@@ -7,6 +7,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import Chroma
 # from langchain.llms import HuggingFaceHub #llm model
 from langchain.memory import ConversationBufferMemory
+from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.chains import ConversationalRetrievalChain
 
 
@@ -36,17 +37,27 @@ def get_vectorstore(text_chunks):
 
 def get_conversation_chain(vectorstore):
     # llm = #imported above
-    #Find a way to do this locally###############
     llm = HuggingFaceHub(repo_id="google/flan-tf-xxl", model_kwargs={"temperature":0.5, "max_length":512})
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
-    conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        retriever=vectorstore.as_retriever(),
-        memory=memory
+    #Find a way to do this locally###############
+    # conversation_chain = ConversationalRetrievalChain.from_llm(
+    #     llm=llm,
+    #     retriever=vectorstore.as_retriever(),
+    #     memory=memory
+    # )
+    retriever = SelfQueryRetriever.fromllm(
+        llm,
+        vectorstore,
+        memory,
     )
-    return conversation_chain
+    # return conversation_chain
+    return retriever
 
 def handle_userinput(user_question):
+    #LOCAL
+    # retriever.get_relevant_documents(user_question)
+
+    #USING API
     response = st.session_state.conversation({'question': user_question})
     st.session_state.chat_history = response['chat_history']
 
